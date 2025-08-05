@@ -1,15 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IntervueX</title>
-    <link rel="icon" href="Assests/urlLogo.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IntervueX</title>
+  <link rel="icon" href="Assests/urlLogo.png"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"/>
 </head>
 <body>
-    <header>
-        <img class="Logo" src="Assests/Logo.svg" alt="Logo for the app">
-        
-    </header>
+
+  <!-- HEADER -->
+  <header class="d-flex justify-content-between align-items-center px-4 py-3 shadow-sm">
+    <img class="Logo" src="Assests/Logo.svg" alt="Logo for the Website" />
+    <div class="form-check form-switch">
+      <label class="form-check-label" for="Switch">
+        <input class="form-check-input" type="checkbox" id="Switch" />
+        <span id="modeLabel"><b>Light Mode</b></span>
+      </label>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="container text-center my-5 main-container">
+    <h1 class="fw-bold mb-3">Mock Interview Simulator</h1>
+    <h2 class="mb-4 text-muted">"Sharpen your answers with practice"</h2>
+    <p class="fs-4">Select Category</p>
+
+    <!-- Dropdown -->
+    <div class="btn-group mb-4">
+      <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Click here
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="mcq.html">MCQ</a></li>
+        <li><a class="dropdown-item" href="code.html">Coding</a></li>
+        <li><a class="dropdown-item" href="hr.html">HR Round</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="custom.html">Custom Simulation</a></li>
+      </ul>
+    </div>
+
+    <!-- Start Button -->
+    <div class="d-flex justify-content-center">
+      <button type="button" class="btn btn-lg btn-outline-primary" id="Start">
+        Start Simulation
+      </button>
+    </div>
+  </main>
+
+  <!-- Horizontal Divider -->
+  <hr class="mx-auto" style="width: 80%;"/>
+
+  <!-- FOOTER -->
+  <footer class="text-center py-3">
+    <a class="footer-link mx-3" href="About.html">About</a>
+    <a class="footer-link mx-3" href="https://github.com" target="_blank">GitHub</a>
+    <a class="footer-link mx-3" href="https://www.google.com" target="_blank">Google Me</a>
+  </footer>
+
+  <!-- Bootstrap Script -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

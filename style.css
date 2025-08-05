@@ -1,9 +1,59 @@
-body{
+/* header styling */
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    position: relative;
+    padding: 1rem 1.2rem;
+}
+.Logo{
+    height: 5rem;
+    width: 7rem;
+}
+
+/* body styling */
+.body{
+    text-align: center;
+    font-family: cursive;
+}
+h1{
+    padding-bottom: 1.2rem;   
+}
+.btn{
+    margin: 2.5rem;
+}
+p{
+    padding-top: 2.5rem;
+    font-size: 2rem;
+}
+#Start{
+    display: flex;
     text-align: center;
     justify-content: center;
 }
-
-.Logo{
-    background-color: wheat;
-    color: antiquewhite;
+.footer-link{
+    text-decoration: none;
 }
+
+/* dark mode */
+.dark-mode{
+    background-color:rgba(100, 99, 99, 0.86);
+    color: white;
+}
+.dark-mode a{
+    color: white;
+}
+.dark-mode header{
+    background-color:rgb(62, 62, 62); 
+}
+.dark-mode footer{
+        background-color: rgb(69, 68, 68);
+}
+.dark-mode ul{
+        background-color: rgb(73, 73, 73);
+}
+body {
+  transition: background-color 0.5s, color 0.5s;
+}
+
+
