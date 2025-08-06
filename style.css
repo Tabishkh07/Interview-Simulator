@@ -44,6 +44,13 @@ p{
     text-align: center;
     justify-content: center;
 }
+.end-button-container {
+    display: none;
+  position: fixed;
+  bottom: 40px; /* Adjust this as needed to appear just above the footer */
+  right: 1px;
+  z-index: 999; /* To ensure it stays on top */
+}
 .footer-link{
     text-decoration: none;
     color: black;

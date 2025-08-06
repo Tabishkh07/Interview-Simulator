@@ -24,7 +24,7 @@
   <main class="flex-grow-1">
     <div class="mcq-container text-center py-5">
       <h1>Practice MCQs</h1>
-      <label for="categorySelect">Select Category:</label>
+      <label id="categorySelect1" for="categorySelect">Select Category:</label>
       <select id="categorySelect" class="form-select w-auto mx-auto mt-2 mb-4">
         <option value="" disabled selected>Select Category</option>
         <option value="coding">Coding</option>
@@ -47,10 +47,17 @@
         Start Simulation
       </button>
     </div>
+
+    <!-- End button -->
+     <div class="end-button-container">
+      <button type="button" class="btn btn-lg btn-danger" id="End">
+        <a class="footer-link" href="index.html">End Stimulation</a>
+      </button>
+    </div>
   </main>
 
   <!-- FOOTER -->
-  <footer class="text-center py-3">
+  <footer class="text-center py-3 ">
     <a class="footer-link mx-3" href="About.html">About</a>
     <a class="footer-link mx-3" href="https://github.com" target="_blank">GitHub</a>
     <a class="footer-link mx-3" href="https://www.google.com" target="_blank">Google Me</a>
