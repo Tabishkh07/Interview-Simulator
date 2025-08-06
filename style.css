@@ -10,6 +10,19 @@
     height: 5rem;
     width: 7rem;
 }
+/* Sticky footer fix */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+main {
+  flex: 1;
+}
+footer {
+  margin-top: auto;
+}
 
 /* body styling */
 .body{
@@ -33,6 +46,7 @@ p{
 }
 .footer-link{
     text-decoration: none;
+    color: black;
 }
 
 /* dark mode */
@@ -46,8 +60,9 @@ p{
 .dark-mode header{
     background-color:rgb(62, 62, 62); 
 }
-.dark-mode footer{
+body.dark-mode footer{
         background-color: rgb(69, 68, 68);
+        
 }
 .dark-mode ul{
         background-color: rgb(73, 73, 73);
@@ -55,5 +70,3 @@ p{
 body {
   transition: background-color 0.5s, color 0.5s;
 }
-
-
