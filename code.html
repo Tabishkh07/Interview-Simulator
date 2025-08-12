@@ -28,8 +28,8 @@
       <select id="categorySelect" class="form-select w-auto mx-auto mt-2 mb-4">
         <option value="" disabled selected>Select Category</option>
         <option value="easy">Easy</option>
-        <option value="Medium">Medium</option>
-        <option value="Hard">Hard</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
       </select>
 
       <div id="questionBox" style="display: none;">
@@ -64,6 +64,104 @@
   </footer>
   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+const startBtn = document.getElementById("Start");
+const questionBox = document.getElementById("questionBox");
+const questionText = document.getElementById("questionText");
+const optionsContainer = document.getElementById("optionsContainer");
+const nextBtn = document.getElementById("nextBtn");
+const categorySelect = document.getElementById("categorySelect");
+
+let currentQuestionIndex = 0;
+let currentQuestions = [];
+let score = 0;
+
+// Question bank by category (keys match dropdown values)
+const questionBank = {
+  easy: [
+      { question: "Which keyword is used to declare a variable in JavaScript?", options: ["var", "int", "let", "const"], answer: "var" },
+      { question: "What does HTML stand for?", options: ["Hyper Text Markup Language", "Hyperlinks and Text Markup Language", "Home Tool Markup Language", "Hyper Transfer Markup Language"], answer: "Hyper Text Markup Language" },
+      { question: "Which HTML tag is used to create a hyperlink?", options: ["<a>", "<link>", "<href>", "<h1>"], answer: "<a>" },
+      { question: "Which CSS property changes text color?", options: ["font-color", "color", "text-color", "background-color"], answer: "color" },
+      { question: "Which JavaScript symbol is used for comments?", options: ["//", "/* */", "<!-- -->", "#"], answer: "//" },
+      { question: "What is the default value of position property in CSS?", options: ["relative", "absolute", "static", "fixed"], answer: "static" },
+      { question: "Which method converts a JSON string into a JavaScript object?", options: ["JSON.stringify()", "JSON.parse()", "parse.JSON()", "toJSON()"], answer: "JSON.parse()" },
+      { question: "Which tag is used to display an image in HTML?", options: ["<image>", "<img>", "<pic>", "<src>"], answer: "<img>" }
+    ],
+    medium: [
+      { question: "What is the output of: console.log(typeof null);", options: ["null", "undefined", "object", "string"], answer: "object" },
+      { question: "Which HTML attribute is used to define inline styles?", options: ["font", "style", "class", "styles"], answer: "style" },
+      { question: "In CSS, what does 'em' unit refer to?", options: ["Relative to font-size of element", "Relative to viewport", "Relative to parent element height", "Absolute pixels"], answer: "Relative to font-size of element" },
+      { question: "Which HTTP method is used to update an existing resource?", options: ["GET", "POST", "PUT", "DELETE"], answer: "PUT" },
+      { question: "In JavaScript, which operator is used for strict equality?", options: ["==", "===", "!==", "="], answer: "===" },
+      { question: "What will `Array.isArray([])` return?", options: ["true", "false", "undefined", "null"], answer: "true" },
+      { question: "Which SQL command is used to remove a table?", options: ["DELETE", "DROP", "REMOVE", "TRUNCATE"], answer: "DROP" },
+      { question: "Which JavaScript method is used to add one or more elements to the end of an array?", options: ["push()", "append()", "concat()", "add()"], answer: "push()" }
+    ],
+    hard: [
+      { question: "What is the time complexity of quicksort in average case?", options: ["O(n)", "O(n log n)", "O(n^2)", "O(log n)"], answer: "O(n log n)" },
+      { question: "In JavaScript, what is the output of: console.log(0.1 + 0.2 === 0.3);", options: ["true", "false", "undefined", "NaN"], answer: "false" },
+      { question: "Which of the following is NOT a JavaScript framework?", options: ["React", "Vue", "Django", "Angular"], answer: "Django" },
+      { question: "What is the purpose of the CSS 'z-index' property?", options: ["Change element size", "Change stacking order", "Change transparency", "Change display type"], answer: "Change stacking order" },
+      { question: "In databases, what does ACID stand for?", options: ["Atomicity, Consistency, Isolation, Durability", "Accuracy, Consistency, Integrity, Durability", "Access, Control, Integrity, Data", "Atomicity, Control, Isolation, Durability"], answer: "Atomicity, Consistency, Isolation, Durability" },
+      { question: "What is a closure in JavaScript?", options: ["A function inside a function with access to outer scope", "A variable inside a function", "A method for closing apps", "An error handler"], answer: "A function inside a function with access to outer scope" },
+      { question: "In Git, which command is used to combine multiple commits into one?", options: ["merge", "squash", "rebase", "commit --amend"], answer: "squash" },
+      { question: "Which algorithm is used in the HTTPS protocol for encryption?", options: ["AES", "SHA-256", "RSA", "MD5"], answer: "RSA" }
+    ]
+};
+
+function showQuestion(index) {
+  const q = currentQuestions[index];
+  questionText.textContent = q.question;
+  optionsContainer.innerHTML = "";
+  q.options.forEach(option => {
+    const btn = document.createElement("button");
+    btn.textContent = option;
+    btn.className = "btn btn-primary m-1";
+    btn.onclick = () => {
+      if (option === q.answer) {
+        score++;
+        alert("✅ Correct!");
+      } else {
+        alert("❌ Wrong! Correct answer: " + q.answer);
+      }
+    };
+    optionsContainer.appendChild(btn);
+  });
+}
+
+// Start button click
+startBtn.addEventListener("click", () => {
+  const selectedCategory = categorySelect.value;
+  if (!selectedCategory) {
+    alert("Please select a category first!");
+    return;
+  }
+  currentQuestions = questionBank[selectedCategory]; // set based on category
+  currentQuestionIndex = 0;
+  questionBox.style.display = "block";
+  showQuestion(currentQuestionIndex);
+});
+
+// Next button click
+nextBtn.addEventListener("click", () => {
+  currentQuestionIndex++;
+  if (currentQuestionIndex < currentQuestions.length) {
+    showQuestion(currentQuestionIndex);
+  } else {
+    showResult();
+  }
+});
+
+// Show result screen
+function showResult() {
+  questionBox.innerHTML = `
+    <h2>Quiz Completed 🎉</h2>
+    <p>Your Score: <b>${score} / ${currentQuestions.length}</b></p>
+    <p>Click "End Stimulation" to return.</p>
+  `;
+}
+</script>
 </body>
 <script src="app.js"></script>
 </html>

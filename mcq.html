@@ -65,6 +65,105 @@
 
   <!-- Bootstrap & Custom JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="app.js"></script>
+  <script>
+const startBtn = document.getElementById("Start");
+const questionBox = document.getElementById("questionBox");
+const questionText = document.getElementById("questionText");
+const optionsContainer = document.getElementById("optionsContainer");
+const nextBtn = document.getElementById("nextBtn");
+const categorySelect = document.getElementById("categorySelect");
+
+let currentQuestionIndex = 0;
+let currentQuestions = [];
+let score = 0;
+
+// Question bank by category (keys match dropdown values)
+const questionBank = {
+  coding: [
+    { question: "Which data structure uses LIFO principle?", options: ["Queue", "Stack", "Array", "Tree"], answer: "Stack" },
+    { question: "What is the output of 5 == '5' in JavaScript?", options: ["true", "false", "error", "undefined"], answer: "true" },
+    { question: "Which keyword is used to create a class in Java?", options: ["function", "def", "class", "object"], answer: "class" },
+    { question: "Which operator is used to access object properties in JavaScript?", options: [".", "->", "::", "#"], answer: "." },
+    { question: "In Python, what does 'len()' return?", options: ["Length of an object", "Last element", "Number of arguments", "None"], answer: "Length of an object" },
+    { question: "Which HTML element is used for the largest heading?", options: ["<h1>", "<h6>", "<heading>", "<head>"], answer: "<h1>" },
+    { question: "Which SQL command is used to retrieve data from a database?", options: ["GET", "EXTRACT", "SELECT", "FETCH"], answer: "SELECT" },
+    { question: "What does API stand for?", options: ["Application Programming Interface", "Applied Program Interaction", "Advanced Programming Integration", "Automated Processing Instruction"], answer: "Application Programming Interface" }
+  ],
+  hr: [
+    { question: "What does HR stand for?", options: ["Human Relations", "Human Resources", "Hiring & Recruitment", "Human Research"], answer: "Human Resources" },
+    { question: "Which of these is an HR function?", options: ["Payroll Management", "Network Setup", "Software Debugging", "Database Backup"], answer: "Payroll Management" },
+    { question: "What is the process of integrating new employees into a company called?", options: ["Onboarding", "Orientation", "Recruitment", "Training"], answer: "Onboarding" },
+    { question: "KPI in HR stands for?", options: ["Key Performance Indicator", "Knowledge Process Integration", "Key Person Insight", "Known Process Information"], answer: "Key Performance Indicator" },
+    { question: "What is the act of reducing staff numbers called?", options: ["Downsizing", "Upskilling", "Promoting", "Onboarding"], answer: "Downsizing" },
+    { question: "Which law in many countries protects employees from discrimination?", options: ["Equal Employment Opportunity Act", "Civil Engineering Act", "Software License Act", "Traffic Safety Act"], answer: "Equal Employment Opportunity Act" },
+    { question: "Which HR process determines salary adjustments?", options: ["Performance Appraisal", "Onboarding", "Exit Interview", "Training"], answer: "Performance Appraisal" },
+    { question: "What is the term for offering non-cash perks to employees?", options: ["Benefits", "Recruitment", "Payroll", "Termination"], answer: "Benefits" }
+  ],
+  aptitude: [
+    { question: "If 3x + 2 = 11, what is x?", options: ["3", "4", "5", "6"], answer: "3" },
+    { question: "What is the missing number in the series: 2, 4, 8, 16, ?", options: ["18", "24", "32", "64"], answer: "32" },
+    { question: "If a train travels 120 km in 2 hours, what is its speed?", options: ["50 km/h", "60 km/h", "70 km/h", "80 km/h"], answer: "60 km/h" },
+    { question: "What is 25% of 200?", options: ["25", "40", "50", "75"], answer: "50" },
+    { question: "The average of 4, 6, 8, and 10 is?", options: ["7", "8", "9", "10"], answer: "7" },
+    { question: "If the perimeter of a square is 40 cm, what is the side length?", options: ["5 cm", "8 cm", "10 cm", "12 cm"], answer: "10 cm" },
+    { question: "What is the probability of getting heads when tossing a coin?", options: ["0", "0.25", "0.5", "1"], answer: "0.5" },
+    { question: "Which number is the smallest prime number?", options: ["0", "1", "2", "3"], answer: "2" }
+  ]
+};
+
+function showQuestion(index) {
+  const q = currentQuestions[index];
+  questionText.textContent = q.question;
+  optionsContainer.innerHTML = "";
+  q.options.forEach(option => {
+    const btn = document.createElement("button");
+    btn.textContent = option;
+    btn.className = "btn btn-primary m-1";
+    btn.onclick = () => {
+      if (option === q.answer) {
+        score++;
+        alert("✅ Correct!");
+      } else {
+        alert("❌ Wrong! Correct answer: " + q.answer);
+      }
+    };
+    optionsContainer.appendChild(btn);
+  });
+}
+
+// Start button click
+startBtn.addEventListener("click", () => {
+  const selectedCategory = categorySelect.value;
+  if (!selectedCategory) {
+    alert("Please select a category first!");
+    return;
+  }
+  currentQuestions = questionBank[selectedCategory]; // set based on category
+  currentQuestionIndex = 0;
+  questionBox.style.display = "block";
+  showQuestion(currentQuestionIndex);
+});
+
+// Next button click
+nextBtn.addEventListener("click", () => {
+  currentQuestionIndex++;
+  if (currentQuestionIndex < currentQuestions.length) {
+    showQuestion(currentQuestionIndex);
+  } else {
+    showResult();
+  }
+});
+
+// Show result screen
+function showResult() {
+  questionBox.innerHTML = `
+    <h2>Quiz Completed 🎉</h2>
+    <p>Your Score: <b>${score} / ${currentQuestions.length}</b></p>
+    <p>Click "End Stimulation" to return.</p>
+  `;
+}
+</script>
+
+<script src="app.js"></script>
 </body>
 </html>

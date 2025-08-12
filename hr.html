@@ -28,8 +28,8 @@
       <select id="categorySelect" class="form-select w-auto mx-auto mt-2 mb-4">
         <option value="" disabled selected>Select Category</option>
         <option value="easy">Easy</option>
-        <option value="Medium">Medium</option>
-        <option value="Hard">Hard</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
       </select>
 
       <div id="questionBox" style="display: none;">
@@ -63,6 +63,104 @@
     <a class="footer-link mx-3" href="https://www.google.com" target="_blank">Google Me</a>
   </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="app.js"></script>
+<script>
+const startBtn = document.getElementById("Start");
+const questionBox = document.getElementById("questionBox");
+const questionText = document.getElementById("questionText");
+const optionsContainer = document.getElementById("optionsContainer");
+const nextBtn = document.getElementById("nextBtn");
+const categorySelect = document.getElementById("categorySelect");
+
+let currentQuestionIndex = 0;
+let currentQuestions = [];
+let score = 0;
+
+// Question bank by category (keys match dropdown values)
+const questionBank = {
+  easy: [
+    { question: "Tell me about yourself.", options: ["Talk about skills, experience, and career goals", "Talk about personal hobbies only", "List all school subjects", "Describe your favorite food"], answer: "Talk about skills, experience, and career goals" },
+    { question: "Why do you want to work here?", options: ["Because I need money", "Because I like the company’s values", "Because my friend works here", "Because it's near my home"], answer: "Because I like the company’s values" },
+    { question: "What are your strengths?", options: ["Relevant skills and qualities", "List weaknesses", "Talk about salary expectations", "Avoid answering"], answer: "Relevant skills and qualities" },
+    { question: "How do you handle stress at work?", options: ["By staying organized and managing time", "By shouting at colleagues", "By avoiding tasks", "By taking frequent leaves"], answer: "By staying organized and managing time" },
+    { question: "What motivates you?", options: ["Challenges and growth opportunities", "Only salary", "Long vacations", "Avoiding work"], answer: "Challenges and growth opportunities" },
+    { question: "Are you willing to relocate?", options: ["Yes, if required", "No, never", "Only if paid double", "I don’t know"], answer: "Yes, if required" },
+    { question: "How do you prioritize your work?", options: ["By urgency and importance", "By picking easiest tasks first", "Randomly", "By asking someone else"], answer: "By urgency and importance" },
+    { question: "What is your greatest weakness?", options: ["A real weakness with improvement plan", "I have no weaknesses", "I’m lazy", "I hate deadlines"], answer: "A real weakness with improvement plan" }
+  ],
+  medium: [
+    { question: "Describe a time you worked in a team successfully.", options: ["Give a real example with your role", "Say you work alone", "Say you don't remember", "Make up a story"], answer: "Give a real example with your role" },
+    { question: "How do you handle conflict with a colleague?", options: ["Discuss calmly and find a solution", "Avoid them forever", "Complain to everyone", "Yell at them"], answer: "Discuss calmly and find a solution" },
+    { question: "Where do you see yourself in 5 years?", options: ["In a role with more responsibility", "Retired", "Not working", "I don’t know"], answer: "In a role with more responsibility" },
+    { question: "How do you adapt to changes in the workplace?", options: ["By staying flexible and learning quickly", "By resisting change", "By complaining", "By quitting"], answer: "By staying flexible and learning quickly" },
+    { question: "Describe a time you missed a deadline.", options: ["Explain the reason and how you improved", "Blame others", "Say it’s normal", "Avoid answering"], answer: "Explain the reason and how you improved" },
+    { question: "How do you ensure good communication in a team?", options: ["Active listening and clarity", "Talking non-stop", "Not sharing updates", "Avoiding emails"], answer: "Active listening and clarity" },
+    { question: "What do you know about our company?", options: ["Mention history, mission, and services", "Nothing", "Only the CEO’s name", "Guess"], answer: "Mention history, mission, and services" },
+    { question: "How do you stay motivated during repetitive tasks?", options: ["By focusing on quality and small goals", "By doing it carelessly", "By skipping work", "By asking someone else to do it"], answer: "By focusing on quality and small goals" }
+  ],
+  hard: [
+    { question: "Tell me about a failure and what you learned from it.", options: ["Give an honest example with lessons", "Say you never fail", "Blame others", "Avoid answering"], answer: "Give an honest example with lessons" },
+    { question: "How do you handle a situation when your manager is wrong?", options: ["Respectfully present facts and suggestions", "Argue aggressively", "Stay silent always", "Go to HR immediately"], answer: "Respectfully present facts and suggestions" },
+    { question: "Describe a time you improved a process at work.", options: ["Share a real improvement example", "Say you never did", "Avoid the question", "Talk about unrelated topics"], answer: "Share a real improvement example" },
+    { question: "How would you handle an underperforming team member?", options: ["Discuss privately and offer support", "Complain to the whole team", "Ignore them", "Remove them immediately"], answer: "Discuss privately and offer support" },
+    { question: "If given multiple urgent tasks, how would you handle them?", options: ["Prioritize by deadlines and importance", "Do random tasks", "Ignore some", "Ask someone else to choose"], answer: "Prioritize by deadlines and importance" },
+    { question: "Describe your leadership style.", options: ["Collaborative and goal-oriented", "Bossy and strict", "Avoid responsibility", "Unclear"], answer: "Collaborative and goal-oriented" },
+    { question: "Have you ever disagreed with a company policy?", options: ["Yes, and addressed it professionally", "Yes, and complained online", "Never, even if unfair", "Avoid answering"], answer: "Yes, and addressed it professionally" },
+    { question: "What would you do if you had to make a decision without all the information?", options: ["Use best available data and experience", "Guess randomly", "Wait forever", "Avoid making a decision"], answer: "Use best available data and experience" }
+  ]
+};
+
+function showQuestion(index) {
+  const q = currentQuestions[index];
+  questionText.textContent = q.question;
+  optionsContainer.innerHTML = "";
+  q.options.forEach(option => {
+    const btn = document.createElement("button");
+    btn.textContent = option;
+    btn.className = "btn btn-primary m-1";
+    btn.onclick = () => {
+      if (option === q.answer) {
+        score++;
+        alert("✅ Correct!");
+      } else {
+        alert("❌ Wrong! Correct answer: " + q.answer);
+      }
+    };
+    optionsContainer.appendChild(btn);
+  });
+}
+
+// Start button click
+startBtn.addEventListener("click", () => {
+  const selectedCategory = categorySelect.value;
+  if (!selectedCategory) {
+    alert("Please select a category first!");
+    return;
+  }
+  currentQuestions = questionBank[selectedCategory]; // set based on category
+  currentQuestionIndex = 0;
+  questionBox.style.display = "block";
+  showQuestion(currentQuestionIndex);
+});
+
+// Next button click
+nextBtn.addEventListener("click", () => {
+  currentQuestionIndex++;
+  if (currentQuestionIndex < currentQuestions.length) {
+    showQuestion(currentQuestionIndex);
+  } else {
+    showResult();
+  }
+});
+
+// Show result screen
+function showResult() {
+  questionBox.innerHTML = `
+    <h2>Quiz Completed 🎉</h2>
+    <p>Your Score: <b>${score} / ${currentQuestions.length}</b></p>
+    <p>Click "End Stimulation" to return.</p>
+  `;
+}
+</script>
 </body>
+<script src="app.js"></script>
 </html>
